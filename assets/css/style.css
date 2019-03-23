@@ -214,11 +214,16 @@ button {
   height: 40px;
   width: 80px;
   border-style: none;
-  background-color: #c52625;
-  color: #fff;
+  background-color: #fff;
+  color: var(--grey);
   text-align: center;
   font-size: 1em;
+  border: 1px solid var(--grey);
+}
 
+button:hover {
+  background-color: lightgray;
+  color: var(--grey);
 }
 
 ul.share-buttons{
