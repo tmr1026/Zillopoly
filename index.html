@@ -3,87 +3,95 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/reset.css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:900|Montserrat" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/reset.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" -->
+    <!-- integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:900|Montserrat|Rock+Salt" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" /> -->
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
 </head>
 
 <body>
     <header>
-        <h1 class="title">ZILLOPOLY</h1>
+        <h1 class="title"><span id="letterZ">Z</span>ILLOPOLY</h1>
     </header>
+
     <main>
+
+        <!-- How to and Login/Logout Section -->
         <section>
             <h2 class="howtobanner">HOW TO PLAY</h2>
             <hr>
-            <p>Try to guess the list price of these homes! The closer you are, the higher your score will be. Bring out your inner realtor...</p>
+            <p>Try to guess the list price of these homes! The closer you are, the higher your score will be. Bring out
+                your inner realtor...</p>
+            <div id="login"></div>
         </section>
+
+        <!-- Leaderboard Section -->
         <section>
             <h2 class="leaderboardbanner">LEADERBOARD</h2>
             <hr>
-            <p>Table from Firebase data goes here... Lorem ipsum dolor sit amet.</p>
-            <img class="section-img"
-                src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/emoji-one/104/chart-with-upwards-trend_1f4c8.png"
-                alt="important graph">
+            <div id="leaderboard"></div>
         </section>
+
+        <!-- Images and Home Data Section -->
         <section>
             <h2 class="imagesbanner">IMAGES</h2>
             <hr>
-            <div class="images-div">
-                <img class="section-img profile"
-                    src="https://photos.zillowstatic.com/p_d/ISiz2tltk5gkrf0000000000.jpg" />
-                <img class="zillow-img" src="assets/images/zillow.png">
-            </div>
-
-            <p class="description">Any other data about home for people to think about before they guess goes here...</p>
+            <div id="images"></div>
+            <div id="bedandbath"></div>
         </section>
+
+        <!-- Price Guess Form Section -->
         <section class="bigbottom">
             <h2 class="guessbanner">ENTER YOUR GUESS</h2>
             <hr>
-            <form id="rendered-form">
+            <!-- <form id="rendered-form">
                 <div class="rendered-form">
                     <div class="fb-text form-group field-text-1553353146561"><label for="text-1553353146561"
-                            class="fb-text-label">Enter your name<span class="fb-required">*</span></label><input type="text"
-                            placeholder="Rich Uncle Pennybags" class="form-control" name="text-1553353146561" maxlength="25"
-                            id="text-1553353146561" required="required" aria-required="true"></div>
+                            class="fb-text-label">Enter your name<span class="fb-required">*</span></label><input
+                            type="text" placeholder="Rich Uncle Pennybags" class="form-control"
+                            name="text-1553353146561" maxlength="25" id="text-1553353146561" required="required"
+                            aria-required="true"></div>
                     <div class="fb-number form-group field-number-1553353150535"><label for="number-1553353150535"
-                            class="fb-number-label">What's the price?<span class="fb-required">*</span></label><input type="number" placeholder="$1,000,000"
-                            class="form-control" name="number-1553353150535" min="1" id="number-1553353150535"  required="required" aria-required="true"></div>
-                    <div class="fb-button form-group field-button-1553353153891"><button type="button" class="submit-answer"
-                            name="button-1553353153891" id="button-1553353153891">Submit</button></div>
+                            class="fb-number-label">What's the price?<span class="fb-required">*</span></label><input
+                            type="number" placeholder="$1,000,000" class="form-control" name="number-1553353150535"
+                            min="1" id="number-1553353150535" required="required" aria-required="true"></div>
+                    <div class="fb-button form-group field-button-1553353153891"><button type="button"
+                            class="submit-answer" name="button-1553353153891" id="button-1553353153891">Submit</button>
+                    </div>
                 </div>
-            </form>
+            </form> -->
+            <div id="guess"></div>
         </section>
+
+        <!-- Current Score Section-->
         <section class="bigtitle">
             <h2 class="bigtitle-title scorebanner">YOUR SCORE</h2>
             <hr>
-            <p>Info from Firebase on their score. Need to figure out a way to assign a 0-100 score based on their
-                accuracy, I guess.</p>
+            <div id="score"></div>
         </section>
+
+        <!-- Social Media Links -->
         <section id="sharesection">
             <h2 class="sharebanner">JUST VISITING?</h2>
             <hr>
-            <p>Share Zillopoly with your friends!</p>
-
+            <p>Share Zillopoly with your friends and family!</p
             <ul class="share-buttons">
                 <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&quote="
-                        title="Share on Facebook" target="_blank"
-                        onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&quote=' + encodeURIComponent(document.URL)); return false;"><img
-                            alt="Share on Facebook" src="assets/images/social_flat_rounded_rects_svg/Facebook.svg" /></a></li>
+                        title="Share on Facebook" target="_blank">
+                        <img alt="Share on Facebook"
+                            src="assets/images/social_flat_rounded_rects_svg/Facebook.svg" /></a></li>
                 <li><a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&text=:%20http%3A%2F%2Fwwoods1016.github.io%2FZillopoly"
-                        target="_blank" title="Tweet"
-                        onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;"><img
-                            alt="Tweet" src="assets/images/social_flat_rounded_rects_svg/Twitter.svg" /></a></li>
-                <li><a href="http://www.reddit.com/submit?url=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&title=" target="_blank"
-                        title="Submit to Reddit"
-                        onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img
-                            alt="Submit to Reddit" src="assets/images/social_flat_rounded_rects_svg/Reddit.svg" /></a></li>
-                <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&title=&summary=&source=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly"
-                        target="_blank" title="Share on LinkedIn"
-                        onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img
-                            alt="Share on LinkedIn" src="assets/images/social_flat_rounded_rects_svg/LinkedIn.svg" /></a></li>
+                        target="_blank" title="Tweet"> <img alt="Tweet"
+                            src="assets/images/social_flat_rounded_rects_svg/Twitter.svg" /></a></li>
+                <li><a href="http://www.reddit.com/submit?url=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&title="
+                        target="_blank" title="Submit to Reddit"><img alt="Submit to Reddit"
+                            src="assets/images/social_flat_rounded_rects_svg/Reddit.svg" /></a>
+                <li id="sms"><a href="sms:" target="_blank" title="Send SMS"><img alt="Send as SMS"
+                            src="assets/images/social_flat_rounded_rects_svg/sms.svg" /></a>
+                </li>
                 <li><a href="mailto:?subject=&body=:%20http%3A%2F%2Fwwoods1016.github.io%2FZillopoly" target="_blank"
                         title="Send email"
                         onclick="window.open('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL)); return false;"><img
@@ -92,14 +100,19 @@
 
             <!-- <a class="bigbottom-link info-link" href="#" class="info-link">Learn more about us...</a> -->
         </section>
+
     </main>
+
     <footer>
         &copy; Anjali Aujla, Taylor Reese, Tuere Thomas & Will Woods, 2019.
         <br>
         &copy; Zillow, Inc., 2006-2019. Use is subject to Terms of Use.
-
     </footer>
+
+    <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="assets/scripts/app.js"></script>
+
 </body>
-
 </html>
-
