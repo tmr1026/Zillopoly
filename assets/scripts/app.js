@@ -161,8 +161,8 @@ function loadProperty() {
     for (var i = 1; i < homesInfo.length; i++) {
         //append pics to image div(WILL WORKING ON SLIDER)
         //append bed and bath info to description div
-        $(".description").text("Bedrooms: " + homesInfo[houseIndex].bedrooms);
-        $(".description").append("<p>Baths: " + homesInfo[houseIndex].bathrooms + "</p>");
+        $("#bedandbath").text("Bedrooms: " + homesInfo[houseIndex].bedrooms);
+        $("#bedandbath").append("<p>Baths: " + homesInfo[houseIndex].bathrooms + "</p>");
     }
 
 }
@@ -185,8 +185,9 @@ function timesUp() {
 //show how many properties won by user
 function results() {
     clearInterval(timer);
-    $("#leaderboard").empty();
     $("#leaderboard").html("<h2>Final Results!</h2>");
+    $("#leaderboard").append("<h3>You won a total of " + wins + " homes!</h3>");
+    reset();
     
 }
 //take players bid
@@ -202,7 +203,7 @@ function bid() {
 function wonBid() {
     clearInterval(timer);
     wins++;
-    $("#leaderboard").append("<h3>You won a total of " + wins + " homes!</h3>");
+    $("#score").append("<h3>Congrats! You just purchased this beautiful home</h3>")
     if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
@@ -213,6 +214,7 @@ function wonBid() {
 function lostBid() {
     clearInterval(timer);
     losses++;
+    $("#score").append("<h3>Sorry, your bid was rejected by the seller!</h3>")
     if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
