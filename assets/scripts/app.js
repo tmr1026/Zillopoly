@@ -149,7 +149,6 @@ losses = 0;
 //user must place bid withing certain amt of time
 function countdown() {
     clock--;
-    //append clock to html
     if (clock <= 0) {
         timesUp();
     }
@@ -159,8 +158,8 @@ function loadProperty() {
     timer = setInterval(countdown, 1000);
     console.log(homesInfo[houseIndex].price)
     for (var i = 1; i < homesInfo.length; i++) {
-        //append pics to image div(WILL WORKING ON SLIDER)
-        //append bed and bath info to description div
+        //append pics to image div(Will working on slider)
+        //append bed and bath info to respective div
         $("#bedandbath").text("Bedrooms: " + homesInfo[houseIndex].bedrooms);
         $("#bedandbath").append("<p>Baths: " + homesInfo[houseIndex].bathrooms + "</p>");
     }
@@ -174,7 +173,6 @@ function nextProperty() {
 }
 function timesUp() {
     clearInterval(timer);
-    //show sell price 
     if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
@@ -195,6 +193,7 @@ function bid() {
     clearInterval(timer);
     currentBid = $("#number-1553353150535").val();
     if (currentBid = homesInfo[houseIndex].price) {
+        alert("goodjob")
         wonBid();
     } else {
         lostBid();
