@@ -168,7 +168,6 @@ function loadProperty() {
 }
 function nextProperty() {
     clock = 45;
-    //append timer to screen
     houseIndex++;
     loadProperty();
 
@@ -176,23 +175,24 @@ function nextProperty() {
 function timesUp() {
     clearInterval(timer);
     //show sell price 
-    if (houseIndex == homesInfo.length) {
+    if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
         setTimeout(nextProperty, 3 * 1000);
     }
 }
+//show final leaderboard
+//show how many properties won by user
 function results() {
     clearInterval(timer);
-    //show final leaderboard
-    //show how many properties won by user
-    $(".description").html("<h2>Final Results!</h2>");
-    $(".description").append("<h3>You won a total of " + wins + "homes!</h3>");
+    $("#leaderboard").empty();
+    $("#leaderboard").html("<h2>Final Results!</h2>");
+    
 }
+//take players bid
 function bid() {
     clearInterval(timer);
     currentBid = $("#number-1553353150535").val();
-    console.log(homesInfo)
     if (currentBid = homesInfo[houseIndex].price) {
         wonBid();
     } else {
@@ -202,8 +202,8 @@ function bid() {
 function wonBid() {
     clearInterval(timer);
     wins++;
-    //message showing player they purchased home
-    if (houseIndex == homesInfo.length) {
+    $("#leaderboard").append("<h3>You won a total of " + wins + " homes!</h3>");
+    if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
         setTimeout(nextProperty, 3 * 1000);
@@ -213,7 +213,7 @@ function wonBid() {
 function lostBid() {
     clearInterval(timer);
     losses++;
-    if (houseIndex == homesInfo.length) {
+    if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
         setTimeout(nextProperty, 3 * 1000);
