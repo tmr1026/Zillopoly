@@ -1,4 +1,9 @@
-/* Layout styles -----------------------------------*/
+/* NEED TO FIX:
+     ### Make Zillow Image sit on top of images from Zillow API ###
+*/
+
+
+/* ---- Basic Layout ---- */
 @media (min-width: 620px) {
   main {
     column-count: 2;
@@ -18,7 +23,7 @@
 
 
 
-/* styles */
+/* ---- Global Styles and Variables ---- */
 
 :root {
   --blue: #3367A4;
@@ -45,13 +50,18 @@ main {
   margin: 0 auto;
   padding: 20px;
 }
- 
+
+/* ---- Specific Styles ---- */
+
+/* Logo */
+
 header {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px 20px 0;
   text-align: center;
-  
+  display: absolute;
+  z-index: 0;
 }
 
 .title {
@@ -80,21 +90,7 @@ header {
   margin-left: -30px;
 }
 
-.figure-img {
-  display: block;
-  width: 100%;
-  object-fit: fill;
-}
 
-
-h2 {
-  font-size: 1.5em;
-  padding-top: 15px;
-  height: 50px;
-  text-align: center;
-  color: var(--white);
-  text-shadow: 2px 2px 2px var(--black);
-}
 
 a {
   text-decoration: none;
@@ -103,6 +99,64 @@ a {
 a:hover {
   color: #34495e;
   text-shadow: 2px 2px 5px var(--black);
+}
+
+p {
+  margin: 1em .5em;
+  padding: 0 10px;
+  font-size: 1.25em;
+  line-height: 1.5em;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  border-top: 3px solid var(--grey);
+  border-radius: 3px;
+  background-color: var(--white);
+}
+
+.options-link {
+  text-decoration: none;
+  font-size: 0.9em;
+  color: var(--grey);
+}
+
+/* Section Cards */
+
+section {
+  border-style: solid;
+  border-color: var(--black);
+  border-width: 4px;
+  background-color: #CFEADB;
+  margin-bottom: 20px;
+  overflow: hidden;
+  min-height: 400px;
+  text-align: center;
+}
+
+section:hover {
+    transform: scale(1.02)translate3d(0px, 0px, 0px);
+    transition: .2s;
+    z-index: 2;
+}
+
+hr {
+  border: none;
+  height: 4px;
+  background-color: var(--black);
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.5em;
+  padding-top: 15px;
+  height: 50px;
+  text-align: center;
+  color: var(--white);
+  text-shadow: 2px 2px 2px var(--black);
 }
 
 .howtobanner {
@@ -129,59 +183,9 @@ a:hover {
   background-color: var(--orange);
 }
 
-p {
-  margin: 1em .5em;
-  padding: 0 10px;
-  font-size: 1.25em;
-  line-height: 1.5em;
-}
-
-.info-link {
-  text-decoration: none;
-  color: var(--red);
-  padding: 10px;
-  display: block;
-}
-
-.options {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 10px;
-  border-top: 3px solid var(--grey);
-  border-radius: 3px;
-  background-color: var(--white);
-}
-
-.options-link {
-  text-decoration: none;
-  font-size: 0.9em;
-  color: var(--grey);
-}
-
-section {
-  border-style: solid;
-  border-color: var(--black);
-  border-width: 4px;
-  background-color: #CFEADB;
-  margin-bottom: 20px;
-  overflow: hidden;
-  min-height: 400px;
-  text-align: center;
-}
-
-hr {
-  border: none;
-  height: 4px;
-  background-color: var(--black);
-  margin-top: 0;
-}
-
-.images-div {
+/* Home Images and Zillow Branding */
+.images {
   position: relative;
-}
-
-.section-img {
   display: block;
   margin: 5px auto;
 }
@@ -191,22 +195,9 @@ hr {
   top: 20px;
   right: 30px;
   height: 20px;
-
 }
 
-.bigtitle {
-  padding: 0;
-}
-
-.bigbottom-link {
-  background-color: var(--red);
-  color: var(--white);
-}
-
-.profile {
-  width: 90%;
-  margin: 16px auto 10px auto;
-}
+/* Form Inputs and Buttons */
 
 form {
   display: flex;
@@ -230,7 +221,7 @@ button {
   height: 50px;
   width: 100px;
   border-style: none;
-  background-color: var(--var(--white));
+  background-color: var(--white);
   color: var(--black);
   text-align: center;
   font-size: 1em;
@@ -249,6 +240,8 @@ button:active {
     transform: translateY(4px);
     box-shadow: 0 1px #666;
 }
+
+/* Social Media Buttons */
 
 ul.share-buttons{
   list-style: none;
@@ -298,13 +291,17 @@ ul.share-buttons img:active {
     box-shadow: 0 1px #666;
 }
 
+/* Footer/Copyright Information */
+
 footer {
-  color: var(--var(--white));
+  color: var(--white);
   text-align: center;
   font-size: .5em;
   line-height: 1.25em;
   margin-bottom: 1em;
 }
+
+/* ---- Additional Media Queries ---- */
 
 @media (max-width: 960px) {
     body {
