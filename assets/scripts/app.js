@@ -193,7 +193,6 @@ function bid() {
     clearInterval(timer);
     currentBid = $("#number-1553353150535").val();
     if (currentBid = homesInfo[houseIndex].price) {
-        alert("goodjob")
         wonBid();
     } else {
         lostBid();
