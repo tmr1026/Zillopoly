@@ -23,6 +23,32 @@ var auth = firebase.auth();
  var userLosses;
  var userProperties;
 
+// Form Divs
+
+            //  So everyone has this information, this is the setup I have at the moment for linking information from app.js to index.html. Let me know if there are any I'm missing:
+
+            //  • Login and Logout form:
+            //  `<div id="login"></div>`
+            
+            //  • Leaderboard:
+            //  `<div id="leaderboard"></div>`
+            
+            //  • Images of Home:
+            //  `<div id="images"></div>`
+            
+            //  • No. of Beds and Baths:
+            //  `<div id="bedandbath"></div>`
+            
+            //  • Enter Your Guess form:
+            //  `<div id="guess"></div>`
+            
+            //  • Current Score:
+            //  `<div id="score"></div>`
+
+
+
+
+
 // New User creation form submit
 
 $("#submitBtn").on("click", function (event) {
