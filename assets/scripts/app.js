@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
 
+
     var arrZpid = ["13387360", "6900654", "7115494", "10875155", "10881469", "59937785", "14422213", "64812633", "46269897", "46254829", "46185302", "29376016", "19502566", "111433854", "48824588"];
     var homesInfo = [];
     var homesInfoPromise = [];
@@ -179,9 +180,12 @@ $(document).ready(function () {
                         obj[nodeName].push(old);
                     }
                     obj[nodeName].push(xmlToJson(item));
+
                 }
+                obj[nodeName].push(xmlToJson(item));
             }
         }
+
         return obj;
 
     };
@@ -201,6 +205,7 @@ $(document).ready(function () {
 });
 
 
+
 //user must place bid withing certain amt of time
 function countdown() {
     clock--;
@@ -211,13 +216,16 @@ function countdown() {
 
 function loadProperty() {
     timer = setInterval(countdown, 1000);
+
     for (var i = 1; i < homesInfo.length; i++) {
         //append pics to image div(Will working on slider)
         //append bed and bath info to respective div
         $("#bedandbath").text("Bedrooms: " + homesInfo[houseIndex].bedrooms);
 
+
         $("#bedandbath").append("<p>Baths: " + homesInfo[houseIndex].bathrooms + "</p>");
     }
+
 
 
 }
@@ -242,6 +250,7 @@ function results() {
     $("#leaderboard").html("<h2>Final Results!</h2>");
     $("#leaderboard").append("<h3>You won a total of " + wins + " homes!</h3>");
     reset();
+
 
 }
 //take players bid
