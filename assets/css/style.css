@@ -183,11 +183,24 @@ h2 {
   background-color: var(--orange);
 }
 
+/* Section sizing */
+
+#leaderboard {
+  display: inherit;
+}
+
 /* Home Images and Zillow Branding */
 .images {
   position: relative;
   display: block;
   margin: 5px auto;
+}
+
+#imagefromzillow {
+  position: relative;
+  display: block;
+  margin: 5px auto;
+  max-width: 90%;
 }
 
 .zillow-img {
