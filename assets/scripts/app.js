@@ -1,16 +1,18 @@
+var arrZpid = ["13387360", "6900654", "7115494", "10875155", "10881469", "59937785", "14422213", "64812633", "46269897", "46254829", "46185302", "29376016", "19502566", "111433854", "48824588"];
+var homesInfo = [];
+var homesInfoPromise = [];
+var obj = {};
+var timer = ''
+var imgArr = [];
+// constructing a queryURL variable we will use instead of the literal string inside of the ajax method
+var zwsid = "X1-ZWz181f7ao8w7f_7oq0o";
+var cors = "https://cors-anywhere.herokuapp.com/";
+var houseIndex = 0;
+
 $(document).ready(function () {
 
 
-
-    var arrZpid = ["13387360", "6900654", "7115494", "10875155", "10881469", "59937785", "14422213", "64812633", "46269897", "46254829", "46185302", "29376016", "19502566", "111433854", "48824588"];
-    var homesInfo = [];
-    var homesInfoPromise = [];
-    var obj = {};
-    var timer = ''
-    var imgArr = [];
-    // constructing a queryURL variable we will use instead of the literal string inside of the ajax method
-    var zwsid = "X1-ZWz181f7ao8w7f_7oq0o";
-    var cors = "https://cors-anywhere.herokuapp.com/";
+  
 
 
     //Write to another array
@@ -36,7 +38,7 @@ $(document).ready(function () {
                 // homesInfoPromise.push(val)
 
             }
-            console.log(homesInfoPromise)
+            // console.log(homesInfoPromise)
             resolve(homesInfoPromise)
         })
     }
@@ -54,11 +56,12 @@ $(document).ready(function () {
 
 
                 var jsonResponse = xmlToJson(response);
-                console.log(jsonResponse)
+                // console.log(jsonResponse)
 
 
                 let arr = []
                 arr.push(jsonResponse)
+                
                 resolve(arr)
             })
                 .catch(function (err) {
@@ -66,6 +69,7 @@ $(document).ready(function () {
                 });
         })
     }
+
 
     async function gotInfo() {
         try {
@@ -90,16 +94,12 @@ $(document).ready(function () {
                     }
                 })
 
-                console.log(homesInfo)
+                
                 // other logic here
 
-                $("#images").append("<img id='imagefromzillow' src='" + homesInfo[3].images[0] + "'/>")
-
-                $("#bedandbath").append("<p>Bedrooms: " + homesInfo[3].homeBedrooms + "</p>");
-
-                $("#bedandbath").append("<p>Baths: " + homesInfo[3].homeBathrooms + "</p>");
-
+                    
                 loadProperty()
+
             })
             // loadProperty()
             // homeInfo()
@@ -180,12 +180,9 @@ $(document).ready(function () {
                         obj[nodeName].push(old);
                     }
                     obj[nodeName].push(xmlToJson(item));
-
                 }
-                obj[nodeName].push(xmlToJson(item));
             }
         }
-
         return obj;
 
     };
@@ -198,12 +195,11 @@ $(document).ready(function () {
     })
 
     houseIndex = 0;
-    clock = 45;
+    clock = 9999999999999;
     wins = 0;
     losses = 0;
 
 });
-
 
 
 //user must place bid withing certain amt of time
@@ -215,26 +211,32 @@ function countdown() {
 }
 
 function loadProperty() {
+    console.log(homesInfo);
     timer = setInterval(countdown, 1000);
-
-    for (var i = 1; i < homesInfo.length; i++) {
+    for (var i = 0; i < homesInfo.length; i++) {
         //append pics to image div(Will working on slider)
         //append bed and bath info to respective div
-        $("#bedandbath").text("Bedrooms: " + homesInfo[houseIndex].bedrooms);
+        $("#images").html("<img id='imagefromzillow' src='" + homesInfo[houseIndex].images[0] + "'/>")
 
+        $("#bedandbath").text("Bedrooms: " + homesInfo[houseIndex].homeBedrooms);
 
-        $("#bedandbath").append("<p>Baths: " + homesInfo[houseIndex].bathrooms + "</p>");
+        $("#bedandbath").append("<p>Baths: " + homesInfo[houseIndex].homeBathrooms + "</p>");
+
+        $("#progress").html(houseIndex + 1);
+
+        $("#win-number").html("<p>Wins: " + wins + "</p>");
+
+        $("#loss-number").html("<p>Losses: " + losses + "</p>");
     }
 
 
-
 }
+
 function nextProperty() {
-    clock = 45;
     houseIndex++;
     loadProperty();
-
 }
+
 function timesUp() {
     clearInterval(timer);
     if (houseIndex == 6) {
@@ -247,27 +249,29 @@ function timesUp() {
 //show how many properties won by user
 function results() {
     clearInterval(timer);
-    $("#leaderboard").html("<h2>Final Results!</h2>");
-    $("#leaderboard").append("<h3>You won a total of " + wins + " homes!</h3>");
+    $("#score").html("<p>Final Results!</p>");
+    $("#score").append("<p>You won a total of " + wins + " homes!</p>");
     reset();
-
 
 }
 //take players bid
 function bid() {
-    clearInterval(timer);
-    currentBid = $("#number-1553353150535").val();
-    if (currentBid = homesInfo[houseIndex].price) {
-        alert("goodjob")
+    minBid = (homesInfo[houseIndex].homePrice)*.80
+    
+    
+    maxBid = (homesInfo[houseIndex].homePrice)*1.2
+    
+    currentBid = $("#guess-price").val();
+    if (minBid<=currentBid) {
         wonBid();
-    } else {
+    } else{
         lostBid();
     }
 }
 function wonBid() {
     clearInterval(timer);
     wins++;
-    $("#score").append("<h3>Congrats! You just purchased this beautiful home</h3>")
+    $("#score").html("<p>Congrats! You just purchased this beautiful home</p>")
     if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
@@ -278,7 +282,7 @@ function wonBid() {
 function lostBid() {
     clearInterval(timer);
     losses++;
-    $("#score").append("<h3>Sorry, your bid was rejected by the seller!</h3>")
+    $("#score").html("<p>Sorry, your bid was rejected by the seller!</p>")
     if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
@@ -290,5 +294,8 @@ function reset() {
     clock = 0;
     wins = 0;
     losses = 0;
-    loadProperty();
+    
 }
+
+// Assign variable to keep increasing from 0-14 for index value
+
