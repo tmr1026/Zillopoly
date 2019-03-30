@@ -1,6 +1,198 @@
 $(document).ready(function () {
 
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBS6ED3MPTd7vVN5xO-4V8N6Tyee1Zd_p8",
+        authDomain: "gtbc-zillopoly.firebaseapp.com",
+        databaseURL: "https://gtbc-zillopoly.firebaseio.com",
+        projectId: "gtbc-zillopoly",
+        storageBucket: "gtbc-zillopoly.appspot.com",
+        messagingSenderId: "213038611947"
+    };
 
+    firebase.initializeApp(config);
+
+    var database = firebase.database();
+    var auth = firebase.auth();
+
+    // vars
+
+    var userName;
+    var email;
+    var password;
+    var hasSignedUp;
+    var hasSignedIn;
+    var userWins = 0;
+    var userLosses;
+    var userProperties;
+
+    //create new user account
+
+    $("#submitBtn").on("click", function (event) {
+        event.preventDefault();
+
+        var userName = $("#userName-input").val().trim();
+        var email = $("#userEmail-input").val().trim();
+        var password = $("#userPw-input").val().trim();
+        var hasSignedUp = true;
+        // var userKey = childSnapshot.ref.path.pieces_[1];  // Need to put this in the snapshot area and push key of the record TO the record.
+
+        console.log("User = " + userName);
+        console.log("Email = " + email);
+        console.log("UserPassword = " + password);
+        //console.log("UserKey = " + childSnapshot.ref.path.pieces_[1])
+
+        database.ref("users").push({
+            userName: userName,
+            email: email,
+            hasSignedUp: hasSignedUp,
+            password: password,
+            userKey: "userKey"
+
+        });
+
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+
+            console.log("error code and Msg... " + errorCode + " ... " + errorMessage);
+
+        });
+
+    });
+
+    // Firebase Observer
+
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            // User is signed in.
+        } else {
+            // No user is signed in.
+        }
+    });
+
+    // Firebase Profile grabber
+
+    var user = firebase.auth().currentUser;
+    var name, email, photoUrl, uid, emailVerified;
+
+    if (user != null) {
+        name = user.displayName;
+        email = user.email;
+        photoUrl = user.photoURL;
+        emailVerified = user.emailVerified;
+        uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+        // this value to authenticate with your backend server, if
+        // you have one. Use User.getToken() instead.
+    }
+
+    console.log("firebase UserID = " + user);
+
+     //sign in to user account
+
+     $("#ssubmitSignInBtn").on("click", function (event) {
+        event.preventDefault();
+
+        var userName = $("#suserName-input").val().trim();
+        var email = $("#suserEmail-input").val().trim();
+        var password = $("#suserPw-input").val().trim();
+        var hasSignedIn = true;
+
+        console.log("User has Signed In! = " + userName);
+        console.log("Email Sign In = " + email);
+        console.log("User Password= " + password);
+
+        firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+
+            var user = firebase.auth().currentUser.email;
+
+            console.log("signed in user..." + user);
+            
+        }).catch(function (error) {
+
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+
+            console.log("error code... " + error.code + " error message...  " + error.message);
+        });
+
+        database.ref("loggedin").push({  //adds logged in users to the logged in firebase folder
+            newUserSignIn: userName,
+            email: email,
+            hasSignedIn: hasSignedIn,
+            password: password,
+            //userKey: userKey
+
+        });
+
+        $("#userName-input").val("");
+
+    });
+
+    // Logged Out Button
+
+    // sign out of user account not working - need help identifying which record to remove.  Maybe listen to the session and automatically log out once the session is done?
+
+    $("#submitSignOutBtn").on("click", function (event) {
+        event.preventDefault();
+
+        // var userName = $("#userName-input").val().trim();
+        // var email = $("#userEmail-input").val().trim();
+        // var password = $("#userPw-input").val().trim();
+        // var hasSignedIn = false;
+
+
+
+        // database.ref("loggedin").remove({
+
+        //$("data-id").something();
+
+
+        // newUserSignIn: userName,
+        // email: email,
+        // hasSignedIn: hasSignedIn
+
+        //});
+
+        var user = firebase.auth().currentUser.uid;
+
+        firebase.auth().signOut().then(function () {
+            // Sign-out successful.
+        }).catch(function (error) {
+            // An error happened.
+        });
+
+        console.log("User has Signed OUT! = " + user);
+
+    });
+
+    // ============================= NEED TO MOVE THIS TO THE WINS SECTION ===========================
+    $("#addWins").on("click", function (event) {
+
+        //var userWins = //
+        userWins++;
+
+        console.log(userWins);
+
+        database.ref("buttonPushWins").push({  //adds points to  userWins in the logged in firebase folder
+            // newUserSignIn: userName,
+            // email: email,
+            // hasSignedIn: hasSignedIn,
+            wins: userWins
+
+        });
+
+        $("#userWins").html(userWins);
+
+    });
+
+
+// API Access and Results
 
     var arrZpid = ["13387360", "6900654", "7115494", "10875155", "10881469", "59937785", "14422213", "64812633", "46269897", "46254829", "46185302", "29376016", "19502566", "111433854", "48824588"];
     var homesInfo = [];
@@ -268,6 +460,22 @@ function wonBid() {
     clearInterval(timer);
     wins++;
     $("#score").append("<h3>Congrats! You just purchased this beautiful home</h3>")
+
+            // write to DB
+                console.log("user just added a win!" + wins);
+
+                database.ref("wins").push({  //adds points to  userWins in the logged in firebase folder
+                    // newUserSignIn: userName,
+                    // email: email,
+                    // hasSignedIn: hasSignedIn,
+                    wins: userWins
+
+            });
+
+            $("#userWins").html(userWins);
+
+            // End Write to DB
+
     if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
