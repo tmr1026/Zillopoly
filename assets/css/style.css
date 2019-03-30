@@ -1,4 +1,9 @@
-/* Layout styles -----------------------------------*/
+/* NEED TO FIX:
+     ### Make Zillow Image sit on top of images from Zillow API ###
+*/
+
+
+/* ---- Basic Layout ---- */
 @media (min-width: 620px) {
   main {
     column-count: 2;
@@ -18,18 +23,25 @@
 
 
 
-/* styles */
+/* ---- Global Styles and Variables ---- */
 
 :root {
-  --blue: #34495e;
+  --blue: #3367A4;
   --grey: #777;
   --red: #C52625;
+  --white: #fff;
+  --orange: #EC9321;
+  --lightblue: #ACDCEF;
+  --magenta: #C53883;
+  --green: #50A859;
+  --brown: #864C38;
+  --black: #000;
 }
 
 body {
   background-image: url("../images/background.jpeg");
   font-family: 'Montserrat', sans-serif;
-  color: #34495e;
+  color: var(--black);
   line-height: 1.4em;
 }
 
@@ -39,12 +51,17 @@ main {
   padding: 20px;
 }
 
+/* ---- Specific Styles ---- */
+
+/* Logo */
+
 header {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px 20px 0;
   text-align: center;
-  
+  display: absolute;
+  z-index: 0;
 }
 
 .title {
@@ -52,35 +69,28 @@ header {
   margin: 0 auto 0 auto;
   font-size: 4em;
   font-family: 'Lato', sans-serif;
-  font-weight: black;
-  text-shadow: 0 4px 4px black;
+  font-weight: var(--black);
+  text-shadow: 0 4px 4px var(--black);
   padding: 18px 20px 20px 20px;
   text-align: center;
-  color: white;
+  color: var(--white);
   background: #f85032; /* Old browsers */
   background: -moz-linear-gradient(top, #f85032 0%, #f7f7f7 4%, #f16f5c 19%, #f6290c 36%, #f6290c 36%, #f02f17 71%, #c52625 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, #f85032 0%,#f7f7f7 4%,#f16f5c 19%,#f6290c 36%,#f6290c 36%,#f02f17 71%,#c52625 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #f85032 0%,#f7f7f7 4%,#f16f5c 19%,#f6290c 36%,#f6290c 36%,#f02f17 71%,#c52625 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  border: 4px solid black;
+  border: 4px solid var(--black);
   width: 380px;
+  height: 78px;
 }
 
-.figure-img {
-  display: block;
-  width: 100%;
-  object-fit: fill;
+#letterZ {
+  font-family: 'Rock Salt', cursive;
+  font-size: 1.1em;
+  color: #3367A4;
+  margin-left: -30px;
 }
 
 
-h2 {
-  font-size: 1.5em;
-  padding-top: 15px;
-  background-color: #EB8B2B;
-  height: 50px;
-  text-align: center;
-  color: white;
-  text-shadow: 2px 2px 2px black;
-}
 
 a {
   text-decoration: none;
@@ -88,45 +98,14 @@ a {
 }
 a:hover {
   color: #34495e;
-  text-shadow: 2px 2px 5px black;
-}
-
-.howtobanner {
-  background-color: #3367A4;
-}
-
-.leaderboardbanner {
-  background-color: #864C38;
-}
-
-.imagesbanner {
-  background-color: #50A859;
-}
-
-.guessbanner {
-  background-color: #C53883;
-}
-
-.scorebanner {
-  background-color: #ACDCEF;
-}
-
-.sharebanner {
-  background-color: #EC9321;
+  text-shadow: 2px 2px 5px var(--black);
 }
 
 p {
-  margin-bottom: 1em;
+  margin: 1em .5em;
   padding: 0 10px;
   font-size: 1.25em;
   line-height: 1.5em;
-}
-
-.info-link {
-  text-decoration: none;
-  color: var(--red);
-  padding: 10px;
-  display: block;
 }
 
 .options {
@@ -136,7 +115,7 @@ p {
   padding: 10px;
   border-top: 3px solid var(--grey);
   border-radius: 3px;
-  background-color: white;
+  background-color: var(--white);
 }
 
 .options-link {
@@ -145,30 +124,83 @@ p {
   color: var(--grey);
 }
 
+/* Section Cards */
+
 section {
   border-style: solid;
-  border-color: black;
+  border-color: var(--black);
   border-width: 4px;
   background-color: #CFEADB;
   margin-bottom: 20px;
   overflow: hidden;
   min-height: 400px;
+  text-align: center;
+}
+
+section:hover {
+    transform: scale(1.02)translate3d(0px, 0px, 0px);
+    transition: .2s;
+    z-index: 2;
 }
 
 hr {
   border: none;
   height: 4px;
-  background-color: black;
+  background-color: var(--black);
   margin-top: 0;
 }
 
-.images-div {
-  position: relative;
+h2 {
+  font-size: 1.5em;
+  padding-top: 15px;
+  height: 50px;
+  text-align: center;
+  color: var(--white);
+  text-shadow: 2px 2px 2px var(--black);
 }
 
-.section-img {
+.howtobanner {
+  background-color: var(--blue);
+}
+
+.leaderboardbanner {
+  background-color: var(--brown);
+}
+
+.imagesbanner {
+  background-color: var(--green);
+}
+
+.guessbanner {
+  background-color: var(--magenta);
+}
+
+.scorebanner {
+  background-color: var(--lightblue);
+}
+
+.sharebanner {
+  background-color: var(--orange);
+}
+
+/* Section sizing */
+
+#leaderboard {
+  display: inherit;
+}
+
+/* Home Images and Zillow Branding */
+.images {
+  position: relative;
   display: block;
   margin: 5px auto;
+}
+
+#imagefromzillow {
+  position: relative;
+  display: block;
+  margin: 5px auto;
+  max-width: 90%;
 }
 
 .zillow-img {
@@ -176,22 +208,9 @@ hr {
   top: 20px;
   right: 30px;
   height: 20px;
-
 }
 
-.bigtitle {
-  padding: 0;
-}
-
-.bigbottom-link {
-  background-color: var(--red);
-  color: white;
-}
-
-.profile {
-  width: 90%;
-  margin: 16px auto 10px auto;
-}
+/* Form Inputs and Buttons */
 
 form {
   display: flex;
@@ -207,19 +226,35 @@ input {
   height: 30px;
   font-size: 1em;
   width: 80%;
-  margin-bottom: 20px;
+  margin-bottom: 1em;
+  margin-top: .5em;
 }
 
 button {
-  height: 40px;
-  width: 80px;
+  height: 50px;
+  width: 100px;
   border-style: none;
-  background-color: #c52625;
-  color: #fff;
+  background-color: var(--white);
+  color: var(--black);
   text-align: center;
   font-size: 1em;
-
+  margin-top: 20px;
+  border: 1px solid var(--grey);
+  box-shadow: 0 6px #999;
+  border-radius: 10px;
 }
+
+button:hover {
+  background-color: lightgray;
+  color: var(--black);
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px #666;
+}
+
+/* Social Media Buttons */
 
 ul.share-buttons{
   list-style: none;
@@ -228,6 +263,17 @@ ul.share-buttons{
   display: flex;
   align-items: flex-end;
   justify-content: center;
+}
+
+#sms {
+  background-color: yellow;
+  border-radius: 10px;
+  display: none;
+}
+
+#sms:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px #666;
 }
 
 ul.share-buttons li{
@@ -249,19 +295,39 @@ ul.share-buttons .sr-only{
 
 ul.share-buttons img{
   width: 50px;
+  box-shadow: 0 6px #999;
+  border-radius: 10px;
 }
 
+ul.share-buttons img:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px #666;
+}
+
+/* Footer/Copyright Information */
+
 footer {
-  color: #fff;
+  color: var(--white);
   text-align: center;
   font-size: .5em;
   line-height: 1.25em;
+  margin-bottom: 1em;
 }
+
+/* ---- Additional Media Queries ---- */
 
 @media (max-width: 960px) {
     body {
     background-image: url("../images/smallbackground.png");
   }
+    footer {
+      color: var(--black);
+    }
+    #sms {
+      background-color: yellow;
+      border-radius: 10px;
+      display: inherit;
+}
 }
 
 @media (min-width: 620px) {
