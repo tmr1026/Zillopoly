@@ -3,12 +3,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link href="https://fonts.googleapis.com/css?family=Lato:900|Montserrat|Rock+Salt" rel="stylesheet">
     <!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" /> -->
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
 </head>
 
 <body>
@@ -21,7 +19,7 @@
 
         <!-- How to and Login/Logout Section -->
         <section>
-            <h2 class="howtobanner">HOW TO PLAY</h2>
+            <h2 class="howtobanner">WELCOME</h2>
             <hr>
             <p>Try to guess the list price of these homes! The closer you are, the higher your score will be. Bring out
                 your inner realtor...</p>
@@ -37,10 +35,11 @@
 
         <!-- Images and Home Data Section -->
         <section>
-            <h2 class="imagesbanner">IMAGES</h2>
+            <h2 class="imagesbanner">HOME <span id="progress"></span>/14</h2>
             <hr>
-            <div id="images"></div>
-            <img class="zillow-img" src="assets/images/zillow.png" alt="Zillow Branding" />
+            <div id="images">
+                <!-- <img class="zillow-img" src="assets/images/zillow.png" alt="Zillow Branding" /> -->
+            </div>
             <div id="bedandbath"></div>
         </section>
 
@@ -48,14 +47,14 @@
         <section>
             <h2 class="guessbanner">ENTER YOUR GUESS</h2>
             <hr>
-            <form id="rendered-form">
-                <div class="rendered-form">
-                    <div class="fb-number form-group field-number-1553353150535"><label for="number-1553353150535"
-                            class="fb-number-label">What's the price?<span class="fb-required">*</span></label><input type="number"
-                            placeholder="$1,000,000" class="form-control" name="number-1553353150535" min="1"
-                            id="number-1553353150535" required="required" aria-required="true"></div>
-                    <div class="fb-button form-group field-button-1553353153891"><button type="button" class="submit-answer"
-                            name="button-1553353153891" id="button-1553353153891">Submit</button></div>
+            <form id="price-form">
+                <div class="price-form">
+                    <div class="form-entry">
+                        <label for="guess-price" class="fb-number-label">What's the price?<span class="fb-required">*</span></label>
+                        <input type="number" placeholder="$1,000,000" class="form-control" min="1" id="guess-price" required="required" aria-required="true">
+                    </div>
+                    <div class="submit-button">
+                        <button type="button" class="submit-answer">Submit</button></div>
                 </div>
             </form>
             <div id="guess"></div>
@@ -66,6 +65,8 @@
             <h2 class="scorebanner">YOUR SCORE</h2>
             <hr>
             <div id="score"></div>
+            <div id="win-number"></div>
+            <div id="loss-number"></div>
         </section>
 
         <!-- Social Media Links -->
@@ -107,7 +108,7 @@
                 </li>
             </ul>
         </section>
-        
+
     </main>
 
     <footer>
@@ -116,6 +117,7 @@
         &copy; Zillow, Inc., 2006-2019. Use is subject to Terms of Use.
     </footer>
 
+    
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
