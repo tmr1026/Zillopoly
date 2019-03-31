@@ -13,6 +13,8 @@
 
     <header>
         <h1 class="title"><span id="letterZ">Z</span>ILLOPOLY</h1>
+        <p id="subtext">A Real Estate Price Guessing Game</p>
+        
     </header>
 
     <main>
@@ -21,103 +23,152 @@
         <section>
             <h2 class="howtobanner">WELCOME</h2>
             <hr>
-            <p>Try to guess the list price of these homes! The closer you are, the higher your score will be. Bring out
-                your inner realtor...</p>
-            <div id="login"></div>
-        </section>
-
-        <!-- Leaderboard Section -->
-        <section>
-            <h2 class="leaderboardbanner">LEADERBOARD</h2>
-            <hr>
-            <div id="leaderboard"></div>
+            <content>
+                <br>
+                <div id="login"></div>
+                <form id="rendered-form">
+                    <div class="rendered-form">
+                        <label id="userName">Enter User Name</label>
+                        <input id="userName-input">
+                        <br>
+                        <label id="userEmail">Enter User Email</label>
+                        <input id="userEmail-input">
+                        <br>
+                        <label id="userPw">Enter Your Password Here</label>
+                        <input id="userPw-input">
+                        <br>
+                        <button class="leftbuttons" id="submitBtn" type="submit">Submit</button>
+                        <button class="leftbuttons" id="ssubmitSignInBtn" type="submit">Login</button>
+                        <button class="leftbuttons" id="submitSignOutBtn" type="submit">Logout</button>
+                    </div>
+                </form>
+<ul class="share-buttons">
+    <li>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&quote="
+            title="Share on Facebook" target="_blank">
+            <img alt="Share on Facebook" src="assets/images/social_flat_rounded_rects_svg/Facebook.svg" />
+        </a>
+    </li>
+    <li>
+        <a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&text=:%20http%3A%2F%2Fwwoods1016.github.io%2FZillopoly"
+            target="_blank" title="Tweet">
+            <img alt="Tweet" src="assets/images/social_flat_rounded_rects_svg/Twitter.svg" />
+        </a>
+    </li>
+    <li>
+        <a href="http://www.reddit.com/submit?url=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&title=" target="_blank"
+            title="Submit to Reddit">
+            <img alt="Submit to Reddit" src="assets/images/social_flat_rounded_rects_svg/Reddit.svg" />
+        </a>
+    </li>
+    <li id="sms">
+        <a href="sms:" target="_blank" title="Send SMS">
+            <img id="exception" alt="Send as SMS" src="assets/images/social_flat_rounded_rects_svg/sms.svg" />
+        </a>
+    </li>
+    <li>
+        <a href="mailto:?subject=&body=:%20http%3A%2F%2Fwwoods1016.github.io%2FZillopoly" target="_blank"
+            title="Send email"
+            onclick="window.open('mailto:?subject=Thanks%20for%20checking%20out%20' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent('wwoods.github.io/Zillopoly')); return false;">
+            <img alt="Send email" src="assets/images/social_flat_rounded_rects_svg/Email.svg" />
+        </a>
+    </li>
+</ul>
+            </content>
         </section>
 
         <!-- Images and Home Data Section -->
-        <section>
+        <section id="bulk">
             <h2 class="imagesbanner">HOME <span id="progress"></span>/14</h2>
             <hr>
-            <div id="images">
-                <!-- <img class="zillow-img" src="assets/images/zillow.png" alt="Zillow Branding" /> -->
+            <div id="images" />
             </div>
-            <div id="bedandbath"></div>
+            
+            <div id="bbcontainer">
+                <div id="bedandbath"></div>
+            </div>
+
+
         </section>
 
         <!-- Price Guess Form Section -->
         <section>
-            <h2 class="guessbanner">ENTER YOUR GUESS</h2>
+            <h2 class="guessbanner">GUESS THE PRICE</h2>
             <hr>
-            <form id="price-form">
-                <div class="price-form">
-                    <div class="form-entry">
-                        <label for="guess-price" class="fb-number-label">What's the price?<span class="fb-required">*</span></label>
-                        <input type="number" placeholder="$1,000,000" class="form-control" min="1" id="guess-price" required="required" aria-required="true">
+            <content>
+                
+                <p id="score">Put on your monocle and see if you've got an eye for real estate.</p>
+                <form id="price-form">
+                    <div class="price-form">
+                        <div class="form-entry">
+                            <label for="guess-price" class="fb-number-label"><span class="fb-required"></span>Guess within $100,000 to win.</label>
+                            
+                            <input type="number" class="form-control" min="1" id="guess-price"
+                                required="required" aria-required="true" autofocus>
+                        </div>
+                        <div class="submit-button">
+                            <button type="button" class="submit-answer">Submit</button></div>
                     </div>
-                    <div class="submit-button">
-                        <button type="button" class="submit-answer">Submit</button></div>
-                </div>
-            </form>
-            <div id="guess"></div>
+                </form>
+                <div id="guess"></div>
+            </content>
         </section>
 
-        <!-- Current Score Section-->
+        <!-- Leaderboard Section -->
         <section>
+            <h2 class="leaderboardbanner">SCORES</h2>
+            <hr>
+            <content>
+
+                <div id="leaderboard"></div>
+                <table class="table" id="userTable">
+                    <!-- table head -->
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <!-- table body -->
+                    <tbody id="userData">
+                        <tr>
+                            <td>Player</td>
+                            <td>Score</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </content>
+        </section>
+
+
+
+
+
+        <!-- Current Score Section-->
+        <!-- <section>
             <h2 class="scorebanner">YOUR SCORE</h2>
             <hr>
+            <content>
             <div id="score"></div>
             <div id="win-number"></div>
             <div id="loss-number"></div>
-        </section>
+            </content>
+        </section> -->
 
-        <!-- Social Media Links -->
-        <section>
-            <h2 class="sharebanner">JUST VISITING?</h2>
-            <hr>
-            <p>Share Zillopoly with your friends and family!</p>
 
-            <ul class="share-buttons">
-                <li>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&quote="
-                        title="Share on Facebook" target="_blank">
-                        <img alt="Share on Facebook" src="assets/images/social_flat_rounded_rects_svg/Facebook.svg" />
-                    </a>
-                </li>
-                <li>
-                    <a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&text=:%20http%3A%2F%2Fwwoods1016.github.io%2FZillopoly"
-                        target="_blank" title="Tweet">
-                        <img alt="Tweet" src="assets/images/social_flat_rounded_rects_svg/Twitter.svg" />
-                    </a>
-                </li>
-                <li>
-                    <a href="http://www.reddit.com/submit?url=http%3A%2F%2Fwwoods1016.github.io%2FZillopoly&title="
-                        target="_blank" title="Submit to Reddit">
-                        <img alt="Submit to Reddit" src="assets/images/social_flat_rounded_rects_svg/Reddit.svg" />
-                    </a>
-                </li>
-                <li id="sms">
-                    <a href="sms:" target="_blank" title="Send SMS">
-                        <img alt="Send as SMS" src="assets/images/social_flat_rounded_rects_svg/sms.svg" />
-                    </a>
-                </li>
-                <li>
-                    <a href="mailto:?subject=&body=:%20http%3A%2F%2Fwwoods1016.github.io%2FZillopoly" target="_blank"
-                        title="Send email"
-                        onclick="window.open('mailto:?subject=Thanks%20for%20checking%20out%20' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent('wwoods.github.io/Zillopoly')); return false;">
-                        <img alt="Send email" src="assets/images/social_flat_rounded_rects_svg/Email.svg" />
-                    </a>
-                </li>
-            </ul>
-        </section>
+
 
     </main>
 
     <footer>
+
         &copy; Anjali Aujla, Taylor Reese, Tuere Thomas & Will Woods, 2019.
         <br>
         &copy; Zillow, Inc., 2006-2019. Use is subject to Terms of Use.
     </footer>
 
-    
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
