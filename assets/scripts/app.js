@@ -11,8 +11,232 @@ var houseIndex = 0;
 
 $(document).ready(function () {
 
+    //START Firebase Auth and Database Functionality
 
-  
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBS6ED3MPTd7vVN5xO-4V8N6Tyee1Zd_p8",
+        authDomain: "gtbc-zillopoly.firebaseapp.com",
+        databaseURL: "https://gtbc-zillopoly.firebaseio.com",
+        projectId: "gtbc-zillopoly",
+        storageBucket: "gtbc-zillopoly.appspot.com",
+        messagingSenderId: "213038611947"
+    };
+    firebase.initializeApp(config);
+
+    var database = firebase.database();
+    var auth = firebase.auth();
+
+
+    // vars
+
+    var userName;
+    var email;
+    var password;
+    var hasSignedUp;
+    var hasSignedIn;
+    var userWins = 0;
+    var userLosses;
+    var userProperties;
+    var authState;
+
+    //create new user account
+
+    $("#submitBtn").on("click", function (event) {
+        event.preventDefault();
+
+        var displayName = $("#userName-input").val().trim();
+        var email = $("#userEmail-input").val().trim();
+        var password = $("#userPw-input").val().trim();
+        var photoURL = $("#userPic-input").val().trim();
+        var hasSignedUp = true;
+
+        console.log("User = " + displayName);
+        console.log("Email = " + email);
+        console.log("UserPassword = " + password);
+
+        database.ref("users").push({
+            displayName: displayName,
+            email: email,
+            hasSignedUp: hasSignedUp,
+            password: password,
+            photoURL: photoURL,
+            userKey: "userKey"
+
+        });
+
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+
+            if (error != null) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                var errorNum = 1;
+                // ...
+
+                console.log("error code and Msg... " + errorCode + " ... " + errorMessage);
+
+                $("#signUpErrorMsg").html(errorMessage);
+
+            } else {
+
+                // Trying to erase the error message currently not working
+                $("#signUpErrorMsg").html();
+            }
+
+        });
+    });
+
+    // Firebase Observer
+
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            // User is signed in.
+            var authState = true;
+
+        } else {
+            // No user is signed in.
+            var authState = false;
+
+        }
+        // problem: stat is only seen within this function :-(
+        console.log("authState = " + authState);
+
+        var user = firebase.auth().currentUser;
+        var name, email, photoUrl, uid, emailVerified, displayName;
+
+        // I'll put the auth state and associated div's to show/hide in here and see what happens
+        // IT WORKS!!!
+
+        if (authState == false) {
+
+            $("#gameDiv").hide();
+        } else {
+            $("#gameDiv").show();
+            $("#gameDiv").html("<h2>Welcome " + user.email + "!</h2>");
+
+        }
+
+    });
+
+    // watch the db for new user sign ups and push the userKey
+
+    database.ref("users").on("child_added", function (childSnapshot) {
+
+        var userName = (childSnapshot.val().userName);
+        //console.log(childSnapshot.ref.path.pieces_[1]);
+
+        var userKey = (childSnapshot.ref.path.pieces_[1]);
+
+        console.log("this is the userKey... " + childSnapshot.ref.path.pieces_[1]);
+
+        // // add the key to the associated records CAUSING RECURSION WHEN PLACED IN THE LISTENER
+
+        // database.ref("users").push({
+        //     userKey: userKey
+        // })
+
+        // add users to the user table above
+
+        $("#userData").append(
+            "<tr><td>" + childSnapshot.val().userName +
+            "</td><td>" + childSnapshot.val().hasSignedUp +
+            "</td></tr>");
+
+        // "<tr><td>" + dbUserName +
+        // "</td><td>" + true +
+        // "</td></tr>");
+
+        // Handle the errors
+    }, function (errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+
+    });
+
+
+    //sign in to user account
+
+    $("#ssubmitSignInBtn").on("click", function (event) {
+        event.preventDefault();
+
+        var userName = $("#suserName-input").val().trim();
+        var email = $("#suserEmail-input").val().trim();
+        var password = $("#suserPw-input").val().trim();
+        var hasSignedIn = true;
+
+        console.log("User has Signed In! = " + userName);
+        console.log("Email Sign In = " + email);
+        console.log("User Password= " + password);
+
+        firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
+
+            var user = firebase.auth().currentUser.email;
+
+            console.log("signed in user..." + user);
+
+        }).catch(function (error) {
+
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+
+            console.log("error code... " + error.code + " error message...  " + error.message);
+        });
+
+        database.ref("loggedin").push({  //adds logged in users to the logged in firebase folder
+            newUserSignIn: userName,
+            email: email,
+            hasSignedIn: hasSignedIn,
+            password: password,
+            //userKey: userKey
+
+        });
+
+        $("#userName-input").val("");
+
+    });
+
+    // Logged Out Button
+
+    $("#submitSignOutBtn").on("click", function (event) {
+        event.preventDefault();
+
+        var user = firebase.auth().currentUser.uid;
+
+        firebase.auth().signOut().then(function () {
+            // Sign-out successful.
+        }).catch(function (error) {
+            // An error happened.
+        });
+
+        console.log("User has Signed OUT! = " + user);
+
+    });
+
+    $("#addWins").on("click", function (event) {
+
+        //var userWins = //
+        userWins++;
+
+        console.log(userWins);
+
+        database.ref("buttonPushWins").push({  //adds points to  userWins in the logged in firebase folder
+            // newUserSignIn: userName,
+            // email: email,
+            // hasSignedIn: hasSignedIn,
+            wins: userWins
+
+        });
+
+        $("#userWins").html(userWins);
+
+    });
+
+    //END Firebase Auth and Database Functionality
+
+
+    //START Zillow API Functionality
 
 
     //Write to another array
@@ -61,7 +285,7 @@ $(document).ready(function () {
 
                 let arr = []
                 arr.push(jsonResponse)
-                
+
                 resolve(arr)
             })
                 .catch(function (err) {
@@ -94,10 +318,10 @@ $(document).ready(function () {
                     }
                 })
 
-                
+
                 // other logic here
 
-                    
+
                 loadProperty()
 
             })
@@ -256,15 +480,15 @@ function results() {
 }
 //take players bid
 function bid() {
-    minBid = (homesInfo[houseIndex].homePrice)*.80
-    
-    
-    maxBid = (homesInfo[houseIndex].homePrice)*1.2
-    
+    minBid = (homesInfo[houseIndex].homePrice) * .80
+
+
+    maxBid = (homesInfo[houseIndex].homePrice) * 1.2
+
     currentBid = $("#guess-price").val();
-    if (minBid<=currentBid) {
+    if (minBid <= currentBid) {
         wonBid();
-    } else{
+    } else {
         lostBid();
     }
 }
@@ -294,7 +518,7 @@ function reset() {
     clock = 0;
     wins = 0;
     losses = 0;
-    
+
 }
 
 // Assign variable to keep increasing from 0-14 for index value
