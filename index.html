@@ -31,7 +31,26 @@
         <section>
             <h2 class="leaderboardbanner">LEADERBOARD</h2>
             <hr>
-            <div id="leaderboard"></div>
+            <div id="leaderboard">
+                <p>
+                    <table class="table" id="userTable">
+                            <!-- leaderboard table head -->
+                            <thead>
+                                <tr>
+                                    <th>Player</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <!-- leaderboard table body (populated from firebase) -->
+                            <tbody id="userData">
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+
+            </div>
         </section>
 
         <!-- Images and Home Data Section -->
