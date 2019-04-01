@@ -252,10 +252,9 @@ label {
 #imagefromzillow {
   display: block;
   margin: auto;
-  width: 115%;
+  width: 100%;
   border-bottom: 4px solid black;
   transition: .2s;
-  margin-left: -10px;
   z-index: 0;
   height: auto;
 }

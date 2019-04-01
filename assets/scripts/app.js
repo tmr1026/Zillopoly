@@ -483,11 +483,9 @@ $(document).ready(function () {
             //append bed and bath info to respective div
             $("#images").html("<img id='imagefromzillow' src='" + homesInfo[houseIndex].images[0] + "'/>")
 
-            $("#bedandbath").html("<p id='smaller'>Bedrooms: " + homesInfo[houseIndex].homeBedrooms + "</p>");
-
-            $("#bedandbath").append("<p id='smaller'>Baths: " + homesInfo[houseIndex].homeBathrooms + "</p>");
-
-            $("#win-number").html("<p class='large'>Homes won: <br>" + wins + "/10</p>");
+            $("#bedandbath").html("<p id='smaller'>Bedrooms: " + homesInfo[houseIndex].homeBedrooms + " | Baths: " + homesInfo[houseIndex].homeBathrooms + "</p >");
+            
+            $("#win-number").html("<p class='large'>Homes won: <br>" + wins + ")/10</p>");
 
             $("#guess-price").val('');
         }
@@ -617,8 +615,8 @@ $(document).ready(function () {
         $("#btnLogin").hide();
         $("#btnLogout").show();
         var initalEntry = document.getElementById("nameInput").value;
-        $("#initials").html("<p style='text-transform: uppercase;'>Welcome, " + initalEntry + ".</p>")
-        $(".hideme").html("<br><p style='text-transform: uppercase;'>Welcome, " + initalEntry + "</p><br>" + "<p>The rules are simple. Place a bid on these homes from Zillow.com. Win the bid if your guess is within $100,000.</p>");
+        $("#initials").html("<p style='text-transform: uppercase;'>Welcome back, " + initalEntry + ".</p>")
+        $(".hideme").html("<br><p >Welcome back,</p><p style='text-transform: uppercase;'>" + initalEntry + "</p>" + "<p>The rules are simple. Place a bid on these homes from Zillow.com. Win the bid if your guess is within $100,000.</p>");
        
 
         return false;
@@ -627,11 +625,14 @@ $(document).ready(function () {
 
 function winMessage(){
     if (wins <= 1) {
-        $(".message1").html("<p>Dang... " + wins + " bids won this time.</p>" + "<p>Try again with different Zillow listings in the future!</p>")
+        $("#bids").html("Dang... " + wins + " bids won this time.")
+        $("#hideAfter").html("<br><br><p>Created by:</p>" + "<ul><li>Anjali Aujla</li><li>Taylor Reese</li><li>Tuere Thomas</li><li>Will Woods</li></ul>" + "<p>Find the code for this project on <a href='https://wwoods1016.github.io/Zillopoly' target:'#'>Github</a>.</p>");
     } else if (wins >1 && wins <= 4) {
-        $(".message1").html("<p>Pretty good! You got " + wins + " out of 5.</p>" + "<p>Try again with different Zillow listings in the future!</p>")
+        $("#bids").html("Pretty good! " + wins + " out of 5.")
+        $("#hideAfter").html("<br><br><p>Created by:</p>" + "<ul><li>Anjali Aujla</li><li>Taylor Reese</li><li>Tuere Thomas</li><li>Will Woods</li></ul>" + "<p>Find the code for this project on <a href='https://wwoods1016.github.io/Zillopoly' target:'#'>Github</a>.</p>");
     } else {
-        $(".message1").html("<p>Perfect 5 out of 5.</p>" + "<p>You'll own a few houses on the Boardwalk in no time.</p>")
+        $("#bids").html("Perfect 5 out of 5.")
+        $("#hideAfter").html("<br><br><p>Created by:</p>" + "<ul><li>Anjali Aujla</li><li>Taylor Reese</li><li>Tuere Thomas</li><li>Will Woods</li></ul>" + "<p>Find the code for this project on <a href='https://wwoods1016.github.io/Zillopoly' target:'#'>Github</a>.</p>");
 
     }
     
