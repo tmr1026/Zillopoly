@@ -22,9 +22,27 @@
         <section>
             <h2 class="howtobanner">WELCOME</h2>
             <hr>
+            <div id="gameDiv"><h3></h3></div>
             <p>Try to guess the list price of these homes! The closer you are, the higher your score will be. Bring out
                 your inner realtor...</p>
-            <div id="login"></div>
+                <div id="login"></div>
+                <h2>Signup/Login</h2>
+                <form id="rendered-form">
+                    <div class="rendered-form">
+                        <label id="userName">Enter User Name</label>
+                        <input id="userName-input">
+                        <br>                    
+                        <label id="userEmail">Enter User Email</label>
+                        <input id="userEmail-input">
+                        <br>
+                        <label id="userPw">Enter Your Password Here</label>
+                        <input id="userPw-input">
+                        <br>
+                        <button id="createUserBtn" type="submit">Create</button>
+                        <button id="submitLogInBtn" type="submit">Login</button>
+                        <button id="submitLogOutBtn" type="submit">Logout</button>
+                    </div>
+                </form>
         </section>
 
         <!-- Leaderboard Section -->
@@ -54,7 +72,7 @@
         </section>
 
         <!-- Images and Home Data Section -->
-        <section>
+        <section id="homeData">
             <h2 class="imagesbanner">HOME <span id="progress"></span>/14</h2>
             <hr>
             <div id="images">
@@ -64,7 +82,7 @@
         </section>
 
         <!-- Price Guess Form Section -->
-        <section>
+        <section id="guessData">
             <h2 class="guessbanner">ENTER YOUR GUESS</h2>
             <hr>
             <form id="price-form">
@@ -81,7 +99,7 @@
         </section>
 
         <!-- Current Score Section-->
-        <section>
+        <section id="scoreData">
             <h2 class="scorebanner">YOUR SCORE</h2>
             <hr>
             <div id="score"></div>

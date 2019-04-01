@@ -42,7 +42,7 @@ $(document).ready(function () {
 
     //create new user account
 
-    $("#submitBtn").on("click", function (event) {
+    $("#createUserBtn").on("click", function (event) {
         event.preventDefault();
 
         var displayName = $("#userName-input").val().trim();
@@ -110,9 +110,14 @@ $(document).ready(function () {
 
         if (authState == false) {
 
-            $("#gameDiv").hide();
+            $("#homeData").hide();
+            $("#guessData").hide();
+            $("#scoreData").hide();
+
         } else {
-            $("#gameDiv").show();
+            $("#homeData").show();
+            $("#guessData").show();
+            $("#scoreData").show();
             $("#gameDiv").html("<h2>Welcome " + user.email + "!</h2>");
 
         }
@@ -128,300 +133,304 @@ $(document).ready(function () {
 
         var userKey = (childSnapshot.ref.path.pieces_[1]);
 
-        console.log("this is the userKey... " + childSnapshot.ref.path.pieces_[1]);
 
-        // // add the key to the associated records CAUSING RECURSION WHEN PLACED IN THE LISTENER
+        // =============  HELP: TRYING TO SORT THIS!!! ++++++++++++++
 
-        // database.ref("users").push({
-        //     userKey: userKey
-        // })
+
+        //    // var sort = firebase.database().ref("users/").orderByChild("wins");
+
+        //     firebase.database().ref("users/").orderByChild("wins", function (childSnapshot){  
+
+        //     console.log("this is the userKey... " + childSnapshot.ref.path.pieces_[1]);
+
+
 
         // add users to the user table above
 
         $("#userData").append(
             "<tr><td>" + childSnapshot.val().userName +
-            "</td><td>" + childSnapshot.val().hasSignedUp +
+            "</td><td>" + childSnapshot.val().wins +
             "</td></tr>");
 
-        // "<tr><td>" + dbUserName +
-        // "</td><td>" + true +
-        // "</td></tr>");
 
-        // Handle the errors
-    }, function (errorObject) {
-        console.log("Errors handled: " + errorObject.code);
+    //});
+
+    // Handle the errors
+}, function (errorObject) {
+    console.log("Errors handled: " + errorObject.code);
+
+});
+
+
+//sign in to user account
+
+$("#submitLogInBtn").on("click", function (event) {
+    event.preventDefault();
+
+    var userName = $("#userName-input").val().trim();
+    var email = $("#userEmail-input").val().trim();
+    var password = $("#userPw-input").val().trim();
+    var hasSignedIn = true;
+
+    console.log("User has Signed In! = " + userName);
+    console.log("Email Sign In = " + email);
+    console.log("User Password= " + password);
+
+    firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
+
+        var user = firebase.auth().currentUser.email;
+
+        console.log("signed in user..." + user);
+
+    }).catch(function (error) {
+
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+
+        console.log("error code... " + error.code + " error message...  " + error.message);
+    });
+
+    database.ref("loggedin").push({  //adds logged in users to the logged in firebase folder
+        newUserSignIn: userName,
+        email: email,
+        hasSignedIn: hasSignedIn,
+        password: password,
+        //userKey: userKey
 
     });
 
+    $("#userName-input").val("");
 
-    //sign in to user account
+});
 
-    $("#ssubmitSignInBtn").on("click", function (event) {
-        event.preventDefault();
+// Logged Out Button
 
-        var userName = $("#suserName-input").val().trim();
-        var email = $("#suserEmail-input").val().trim();
-        var password = $("#suserPw-input").val().trim();
-        var hasSignedIn = true;
+$("#submitLogOutBtn").on("click", function (event) {
+    event.preventDefault();
 
-        console.log("User has Signed In! = " + userName);
-        console.log("Email Sign In = " + email);
-        console.log("User Password= " + password);
+    var user = firebase.auth().currentUser.uid;
 
-        firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
+    firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+    }).catch(function (error) {
+        // An error happened.
+    });
 
-            var user = firebase.auth().currentUser.email;
+    console.log("User has Signed OUT! = " + user);
 
-            console.log("signed in user..." + user);
+});
 
-        }).catch(function (error) {
+$("#addWins").on("click", function (event) {
 
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
+    //var userWins = //
+    userWins++;
 
-            console.log("error code... " + error.code + " error message...  " + error.message);
-        });
+    console.log(userWins);
 
-        database.ref("loggedin").push({  //adds logged in users to the logged in firebase folder
-            newUserSignIn: userName,
-            email: email,
-            hasSignedIn: hasSignedIn,
-            password: password,
-            //userKey: userKey
-
-        });
-
-        $("#userName-input").val("");
+    database.ref("buttonPushWins").push({  //adds points to  userWins in the logged in firebase folder
+        // newUserSignIn: userName,
+        // email: email,
+        // hasSignedIn: hasSignedIn,
+        wins: userWins
 
     });
 
-    // Logged Out Button
+    $("#userWins").html(userWins);
 
-    $("#submitSignOutBtn").on("click", function (event) {
-        event.preventDefault();
-
-        var user = firebase.auth().currentUser.uid;
-
-        firebase.auth().signOut().then(function () {
-            // Sign-out successful.
-        }).catch(function (error) {
-            // An error happened.
-        });
-
-        console.log("User has Signed OUT! = " + user);
-
-    });
-
-    $("#addWins").on("click", function (event) {
-
-        //var userWins = //
-        userWins++;
-
-        console.log(userWins);
-
-        database.ref("buttonPushWins").push({  //adds points to  userWins in the logged in firebase folder
-            // newUserSignIn: userName,
-            // email: email,
-            // hasSignedIn: hasSignedIn,
-            wins: userWins
-
-        });
-
-        $("#userWins").html(userWins);
-
-    });
-
-    //END Firebase Auth and Database Functionality
+});
 
 
-    //START Zillow API Functionality
+//END Firebase Auth and Database Functionality
 
 
-    //Write to another array
+//START Zillow API Functionality
 
 
-    async function getInfo() {
-        return new Promise(async (resolve, reject) => {
-            for (i = 0; i < arrZpid.length; i++) {
-                homesInfoPromise.push(getObjList(i))
-                // console.log(val)
-                // obj = { price: homePrice, images: imgArr, bedrooms: homeBedrooms, bathrooms: homeBathrooms };
-                // var homePrice = jsonResponse["UpdatedPropertyDetails:updatedPropertyDetails"].response.price["#text"];
-
-                // homeBedrooms = jsonResponse["UpdatedPropertyDetails:updatedPropertyDetails"].response.editedFacts.bedrooms["#text"];
-
-                // homeBathrooms = jsonResponse["UpdatedPropertyDetails:updatedPropertyDetails"].response.editedFacts.bathrooms["#text"];
-
-                // for (j = 0; j < 3; j++) {
-                //     homeImage = jsonResponse["UpdatedPropertyDetails:updatedPropertyDetails"].response.images.image.url[j]["#text"];
-                //     imgArr[j] = homeImage;
-                // }
-                // console.log(val)
-                // homesInfoPromise.push(val)
-
-            }
-            // console.log(homesInfoPromise)
-            resolve(homesInfoPromise)
-        })
-    }
-
-    async function getObjList(i) {
-        return new Promise((resolve, reject) => {
-            var imgArr = [];
-
-            var queryURL = cors + "www.zillow.com/webservice/GetUpdatedPropertyDetails.htm?zws-id=" + zwsid + "&zpid=" + arrZpid[i];
-
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function (response) {
+//Write to another array
 
 
-                var jsonResponse = xmlToJson(response);
-                // console.log(jsonResponse)
+async function getInfo() {
+    return new Promise(async (resolve, reject) => {
+        for (i = 0; i < arrZpid.length; i++) {
+            homesInfoPromise.push(getObjList(i))
+            // console.log(val)
+            // obj = { price: homePrice, images: imgArr, bedrooms: homeBedrooms, bathrooms: homeBathrooms };
+            // var homePrice = jsonResponse["UpdatedPropertyDetails:updatedPropertyDetails"].response.price["#text"];
 
+            // homeBedrooms = jsonResponse["UpdatedPropertyDetails:updatedPropertyDetails"].response.editedFacts.bedrooms["#text"];
 
-                let arr = []
-                arr.push(jsonResponse)
+            // homeBathrooms = jsonResponse["UpdatedPropertyDetails:updatedPropertyDetails"].response.editedFacts.bathrooms["#text"];
 
-                resolve(arr)
-            })
-                .catch(function (err) {
-                    reject(err)
-                });
-        })
-    }
+            // for (j = 0; j < 3; j++) {
+            //     homeImage = jsonResponse["UpdatedPropertyDetails:updatedPropertyDetails"].response.images.image.url[j]["#text"];
+            //     imgArr[j] = homeImage;
+            // }
+            // console.log(val)
+            // homesInfoPromise.push(val)
 
-
-    async function gotInfo() {
-        try {
-            homesInfoPromise = await getInfo()
-            Promise.all(homesInfoPromise).then(jsonResponse => {
-                jsonResponse.forEach((res, i) => {
-                    if (i !== 1) {
-
-                        const obj = {}
-                        obj.homePrice = res[0]["UpdatedPropertyDetails:updatedPropertyDetails"].response.price["#text"];
-
-                        obj.homeBedrooms = res[0]["UpdatedPropertyDetails:updatedPropertyDetails"].response.editedFacts.bedrooms["#text"];
-
-                        obj.homeBathrooms = res[0]["UpdatedPropertyDetails:updatedPropertyDetails"].response.editedFacts.bathrooms["#text"];
-                        const arr = []
-                        for (var j = 0; j < 3; j++) {
-                            arr.push(res[0]["UpdatedPropertyDetails:updatedPropertyDetails"].response.images.image.url[j]["#text"])
-                        }
-                        obj.images = arr
-
-                        homesInfo.push(obj)
-                    }
-                })
-
-
-                // other logic here
-
-
-                loadProperty()
-
-            })
-            // loadProperty()
-            // homeInfo()
-            return homesInfoPromise
-        } catch (err) {
-            console.log(err)
-            throw err
         }
-
-
-
-        // append here
-
-
-    }
-
-
-    // function loadProperty() {
-    //     timer = setInterval(countdown, 1000);
-    //     for (var i = 0; i < homesInfo.length; i++) {
-
-
-    //         $("#bedandbath").append("<p>Bedrooms: " + homesInfo[0].homeBedrooms + "</p>");
-
-    //         $("#bedandbath").append("<p>Baths: " + homesInfo[0].homeBathrooms + "</p>");
-    //         // console.log("This is Homes Info",homesInfo[0]);
-    //     }
-
-
-    // }
-
-    gotInfo()
-
-
-
-    // async function homesInfo(homesInfoPromise){
-    //     return new Promise((resolve,reject)=>{
-    //         Promise.all(homesInfoPromise).then(val=>{
-    //             resolve(val)
-    //          })
-    //          .catch(err=>{
-    //             reject(err)
-    //          })
-    //     })
-    // }
-
-
-    // Changes XML to JSON
-    function xmlToJson(xml) {
-
-        // Create the return object
-        var obj = {};
-
-        if (xml.nodeType == 1) { // element
-            // do attributes
-            if (xml.attributes.length > 0) {
-                obj["@attributes"] = {};
-                for (var j = 0; j < xml.attributes.length; j++) {
-                    var attribute = xml.attributes.item(j);
-                    obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
-                }
-            }
-        } else if (xml.nodeType == 3) { // text
-            obj = xml.nodeValue;
-        }
-
-        // do children
-        if (xml.hasChildNodes()) {
-            for (var i = 0; i < xml.childNodes.length; i++) {
-                var item = xml.childNodes.item(i);
-                var nodeName = item.nodeName;
-                if (typeof (obj[nodeName]) == "undefined") {
-                    obj[nodeName] = xmlToJson(item);
-                } else {
-                    if (typeof (obj[nodeName].push) == "undefined") {
-                        var old = obj[nodeName];
-                        obj[nodeName] = [];
-                        obj[nodeName].push(old);
-                    }
-                    obj[nodeName].push(xmlToJson(item));
-                }
-            }
-        }
-        return obj;
-
-    };
-
-    //game code
-
-    $(".submit-answer").on("click", function (event) {
-        event.preventDefault();
-        bid();
+        // console.log(homesInfoPromise)
+        resolve(homesInfoPromise)
     })
+}
 
-    houseIndex = 0;
-    clock = 9999999999999;
-    wins = 0;
-    losses = 0;
+async function getObjList(i) {
+    return new Promise((resolve, reject) => {
+        var imgArr = [];
+
+        var queryURL = cors + "www.zillow.com/webservice/GetUpdatedPropertyDetails.htm?zws-id=" + zwsid + "&zpid=" + arrZpid[i];
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+
+
+            var jsonResponse = xmlToJson(response);
+            // console.log(jsonResponse)
+
+
+            let arr = []
+            arr.push(jsonResponse)
+
+            resolve(arr)
+        })
+            .catch(function (err) {
+                reject(err)
+            });
+    })
+}
+
+
+async function gotInfo() {
+    try {
+        homesInfoPromise = await getInfo()
+        Promise.all(homesInfoPromise).then(jsonResponse => {
+            jsonResponse.forEach((res, i) => {
+                if (i !== 1) {
+
+                    const obj = {}
+                    obj.homePrice = res[0]["UpdatedPropertyDetails:updatedPropertyDetails"].response.price["#text"];
+
+                    obj.homeBedrooms = res[0]["UpdatedPropertyDetails:updatedPropertyDetails"].response.editedFacts.bedrooms["#text"];
+
+                    obj.homeBathrooms = res[0]["UpdatedPropertyDetails:updatedPropertyDetails"].response.editedFacts.bathrooms["#text"];
+                    const arr = []
+                    for (var j = 0; j < 3; j++) {
+                        arr.push(res[0]["UpdatedPropertyDetails:updatedPropertyDetails"].response.images.image.url[j]["#text"])
+                    }
+                    obj.images = arr
+
+                    homesInfo.push(obj)
+                }
+            })
+
+
+            // other logic here
+
+
+            loadProperty()
+
+        })
+        // loadProperty()
+        // homeInfo()
+        return homesInfoPromise
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+
+
+
+    // append here
+
+
+}
+
+
+// function loadProperty() {
+//     timer = setInterval(countdown, 1000);
+//     for (var i = 0; i < homesInfo.length; i++) {
+
+
+//         $("#bedandbath").append("<p>Bedrooms: " + homesInfo[0].homeBedrooms + "</p>");
+
+//         $("#bedandbath").append("<p>Baths: " + homesInfo[0].homeBathrooms + "</p>");
+//         // console.log("This is Homes Info",homesInfo[0]);
+//     }
+
+
+// }
+
+gotInfo()
+
+
+
+// async function homesInfo(homesInfoPromise){
+//     return new Promise((resolve,reject)=>{
+//         Promise.all(homesInfoPromise).then(val=>{
+//             resolve(val)
+//          })
+//          .catch(err=>{
+//             reject(err)
+//          })
+//     })
+// }
+
+
+// Changes XML to JSON
+function xmlToJson(xml) {
+
+    // Create the return object
+    var obj = {};
+
+    if (xml.nodeType == 1) { // element
+        // do attributes
+        if (xml.attributes.length > 0) {
+            obj["@attributes"] = {};
+            for (var j = 0; j < xml.attributes.length; j++) {
+                var attribute = xml.attributes.item(j);
+                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+            }
+        }
+    } else if (xml.nodeType == 3) { // text
+        obj = xml.nodeValue;
+    }
+
+    // do children
+    if (xml.hasChildNodes()) {
+        for (var i = 0; i < xml.childNodes.length; i++) {
+            var item = xml.childNodes.item(i);
+            var nodeName = item.nodeName;
+            if (typeof (obj[nodeName]) == "undefined") {
+                obj[nodeName] = xmlToJson(item);
+            } else {
+                if (typeof (obj[nodeName].push) == "undefined") {
+                    var old = obj[nodeName];
+                    obj[nodeName] = [];
+                    obj[nodeName].push(old);
+                }
+                obj[nodeName].push(xmlToJson(item));
+            }
+        }
+    }
+    return obj;
+
+};
+
+//game code
+
+$(".submit-answer").on("click", function (event) {
+    event.preventDefault();
+    bid();
+})
+
+houseIndex = 0;
+clock = 9999999999999;
+wins = 0;
+losses = 0;
 
 });
 
@@ -499,13 +508,13 @@ function wonBid() {
 
     var database = firebase.database();
 
-        database.ref("zWins").push({  //adds points to  userWins in the logged in firebase folder
-           
-            wins: wins
+    database.ref("zWins").push({  //adds points to  userWins in the logged in firebase folder
 
-        });
+        wins: wins
 
-        $("#userWins").html(wins);
+    });
+
+    $("#userWins").html(wins);
 
     if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
