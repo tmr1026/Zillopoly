@@ -1,200 +1,216 @@
 
 $(document).ready(function () {
-
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyBS6ED3MPTd7vVN5xO-4V8N6Tyee1Zd_p8",
-        authDomain: "gtbc-zillopoly.firebaseapp.com",
-        databaseURL: "https://gtbc-zillopoly.firebaseio.com",
-        projectId: "gtbc-zillopoly",
-        storageBucket: "gtbc-zillopoly.appspot.com",
-        messagingSenderId: "213038611947"
-    };
-
-    firebase.initializeApp(config);
-
-    var database = firebase.database();
-    var auth = firebase.auth();
-
-    // vars
-
-    var userName;
-    var email;
-    var password;
-    var hasSignedUp;
-    var hasSignedIn;
-    var userWins = 0;
-    var userLosses;
-    var userProperties;
-
-    //create new user account
-
-    $("#submitBtn").on("click", function (event) {
-        event.preventDefault();
-
-        var userName = $("#userName-input").val().trim();
-        var email = $("#userEmail-input").val().trim();
-        var password = $("#userPw-input").val().trim();
-        var hasSignedUp = true;
-        // var userKey = childSnapshot.ref.path.pieces_[1];  // Need to put this in the snapshot area and push key of the record TO the record.
-
-        console.log("User = " + userName);
-        console.log("Email = " + email);
-        console.log("UserPassword = " + password);
-        //console.log("UserKey = " + childSnapshot.ref.path.pieces_[1])
-
-        database.ref("users").push({
-            userName: userName,
-            email: email,
-            hasSignedUp: hasSignedUp,
-            password: password,
-            userKey: "userKey"
-
-        });
-
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-
-            console.log("error code and Msg... " + errorCode + " ... " + errorMessage);
-
-        });
-
-    });
-
-    // Firebase Observer
-
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            // User is signed in.
-        } else {
-            // No user is signed in.
+    $("input[data-type='number']").keyup(function (event) {
+        // skip for arrow keys
+        if (event.which >= 37 && event.which <= 40) {
+            event.preventDefault();
         }
+        var $this = $(this);
+        var num = $this.val().replace(/,/gi, "");
+        var num2 = num.split(/(?=(?:\d{3})+$)/).join(",");
+        
+        console.log(num2);
+        // the following line has been simplified. Revision history contains original.
+        $this.val(num2);
     });
-
-    // Firebase Profile grabber
-
-    var user = firebase.auth().currentUser;
-    var name, email, photoUrl, uid, emailVerified;
-
-    if (user != null) {
-        name = user.displayName;
-        email = user.email;
-        photoUrl = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-        // this value to authenticate with your backend server, if
-        // you have one. Use User.getToken() instead.
-    }
-
-    console.log("firebase UserID = " + user);
-
-    //sign in to user account
-
-    $("#ssubmitSignInBtn").on("click", function (event) {
-        event.preventDefault();
-
-        var userName = $("#suserName-input").val().trim();
-        var email = $("#suserEmail-input").val().trim();
-        var password = $("#suserPw-input").val().trim();
-        var hasSignedIn = true;
-
-        console.log("User has Signed In! = " + userName);
-        console.log("Email Sign In = " + email);
-        console.log("User Password= " + password);
-
-        firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
-
-            var user = firebase.auth().currentUser.email;
-
-            console.log("signed in user..." + user);
-
-        }).catch(function (error) {
-
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-
-            console.log("error code... " + error.code + " error message...  " + error.message);
-        });
-
-        database.ref("loggedin").push({  //adds logged in users to the logged in firebase folder
-            newUserSignIn: userName,
-            email: email,
-            hasSignedIn: hasSignedIn,
-            password: password,
-            //userKey: userKey
-
-        });
-
-        $("#userName-input").val("");
-
-    });
-
-    // Logged Out Button
-
-    // sign out of user account not working - need help identifying which record to remove.  Maybe listen to the session and automatically log out once the session is done?
-
-    $("#submitSignOutBtn").on("click", function (event) {
-        event.preventDefault();
-
-        // var userName = $("#userName-input").val().trim();
-        // var email = $("#userEmail-input").val().trim();
-        // var password = $("#userPw-input").val().trim();
-        // var hasSignedIn = false;
-
-
-
-        // database.ref("loggedin").remove({
-
-        //$("data-id").something();
-
-
-        // newUserSignIn: userName,
-        // email: email,
-        // hasSignedIn: hasSignedIn
-
-        //});
-
-        var user = firebase.auth().currentUser.uid;
-
-        firebase.auth().signOut().then(function () {
-            // Sign-out successful.
-        }).catch(function (error) {
-            // An error happened.
-        });
-
-        console.log("User has Signed OUT! = " + user);
-
-    });
-
-    // ============================= NEED TO MOVE THIS TO THE WINS SECTION ===========================
-    $("#addWins").on("click", function (event) {
-
-        //var userWins = //
-        userWins++;
-
-        console.log(userWins);
-
-        database.ref("buttonPushWins").push({  //adds points to  userWins in the logged in firebase folder
-            // newUserSignIn: userName,
-            // email: email,
-            // hasSignedIn: hasSignedIn,
-            wins: userWins
-
-        });
-
-        $("#userWins").html(userWins);
-
-    });
-
 });
 
-    var arrZpid = ["13387360", "6900654", "7115494", "10875155", "10881469", "59937785", "14422213", "64812633", "46269897", "46254829", "46185302", "29376016", "19502566", "111433854", "48824588"];
+//     // Initialize Firebase
+//     var config = {
+//         apiKey: "AIzaSyBS6ED3MPTd7vVN5xO-4V8N6Tyee1Zd_p8",
+//         authDomain: "gtbc-zillopoly.firebaseapp.com",
+//         databaseURL: "https://gtbc-zillopoly.firebaseio.com",
+//         projectId: "gtbc-zillopoly",
+//         storageBucket: "gtbc-zillopoly.appspot.com",
+//         messagingSenderId: "213038611947"
+//     };
+
+//     firebase.initializeApp(config);
+
+//     var database = firebase.database();
+//     var auth = firebase.auth();
+
+//     // vars
+
+//     var userName;
+//     var email;
+//     var password;
+//     var hasSignedUp;
+//     var hasSignedIn;
+//     var userWins = 0;
+//     var userLosses;
+//     var userProperties;
+
+// $(document).ready(function () {
+
+//     //create new user account
+
+//     $("#submitBtn").on("click", function (event) {
+//         event.preventDefault();
+
+//         var userName = $("#userName-input").val().trim();
+//         var email = $("#userEmail-input").val().trim();
+//         var password = $("#userPw-input").val().trim();
+//         var hasSignedUp = true;
+//         // var userKey = childSnapshot.ref.path.pieces_[1];  // Need to put this in the snapshot area and push key of the record TO the record.
+
+//         console.log("User = " + userName);
+//         console.log("Email = " + email);
+//         console.log("UserPassword = " + password);
+//         //console.log("UserKey = " + childSnapshot.ref.path.pieces_[1])
+
+//         database.ref("users").push({
+//             userName: userName,
+//             email: email,
+//             hasSignedUp: hasSignedUp,
+//             password: password,
+//             userKey: "userKey"
+
+//         });
+
+//         firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+
+//             // Handle Errors here.
+//             var errorCode = error.code;
+//             var errorMessage = error.message;
+//             // ...
+
+//             console.log("error code and Msg... " + errorCode + " ... " + errorMessage);
+
+//         });
+
+//     });
+
+//     // Firebase Observer
+
+//     firebase.auth().onAuthStateChanged(function (user) {
+//         if (user) {
+//             // User is signed in.
+//         } else {
+//             // No user is signed in.
+//         }
+//     });
+
+//     // Firebase Profile grabber
+
+//     var user = firebase.auth().currentUser;
+//     var name, email, photoUrl, uid, emailVerified;
+
+//     if (user != null) {
+//         name = user.displayName;
+//         email = user.email;
+//         photoUrl = user.photoURL;
+//         emailVerified = user.emailVerified;
+//         uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+//         // this value to authenticate with your backend server, if
+//         // you have one. Use User.getToken() instead.
+//     }
+
+//     console.log("firebase UserID = " + user);
+
+//     //sign in to user account
+
+//     $("#ssubmitSignInBtn").on("click", function (event) {
+//         event.preventDefault();
+
+//         var userName = $("#suserName-input").val().trim();
+//         var email = $("#suserEmail-input").val().trim();
+//         var password = $("#suserPw-input").val().trim();
+//         var hasSignedIn = true;
+
+//         console.log("User has Signed In! = " + userName);
+//         console.log("Email Sign In = " + email);
+//         console.log("User Password= " + password);
+
+//         firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
+
+//             var user = firebase.auth().currentUser.email;
+
+//             console.log("signed in user..." + user);
+
+//         }).catch(function (error) {
+
+//             // Handle Errors here.
+//             var errorCode = error.code;
+//             var errorMessage = error.message;
+//             // ...
+
+//             console.log("error code... " + error.code + " error message...  " + error.message);
+//         });
+
+//         database.ref("loggedin").push({  //adds logged in users to the logged in firebase folder
+//             newUserSignIn: userName,
+//             email: email,
+//             hasSignedIn: hasSignedIn,
+//             password: password,
+//             //userKey: userKey
+
+//         });
+
+//         $("#userName-input").val("");
+
+//     });
+
+//     // Logged Out Button
+
+//     // sign out of user account not working - need help identifying which record to remove.  Maybe listen to the session and automatically log out once the session is done?
+
+//     $("#submitSignOutBtn").on("click", function (event) {
+//         event.preventDefault();
+
+//         // var userName = $("#userName-input").val().trim();
+//         // var email = $("#userEmail-input").val().trim();
+//         // var password = $("#userPw-input").val().trim();
+//         // var hasSignedIn = false;
+
+
+
+//         // database.ref("loggedin").remove({
+
+//         //$("data-id").something();
+
+
+//         // newUserSignIn: userName,
+//         // email: email,
+//         // hasSignedIn: hasSignedIn
+
+//         //});
+
+//         var user = firebase.auth().currentUser.uid;
+
+//         firebase.auth().signOut().then(function () {
+//             // Sign-out successful.
+//         }).catch(function (error) {
+//             // An error happened.
+//         });
+
+//         console.log("User has Signed OUT! = " + user);
+
+//     });
+
+//     // ============================= NEED TO MOVE THIS TO THE WINS SECTION ===========================
+//     $("#addWins").on("click", function (event) {
+
+//         //var userWins = //
+//         userWins++;
+
+//         console.log(userWins);
+
+//         database.ref("buttonPushWins").push({  //adds points to  userWins in the logged in firebase folder
+//             // newUserSignIn: userName,
+//             // email: email,
+//             // hasSignedIn: hasSignedIn,
+//             wins: userWins
+
+//         });
+
+//         $("#userWins").html(userWins);
+
+//     });
+
+// });
+
+var arrZpid = ["13387360", "6900654", "10875155", "10881469", "59937785", "14422213", "64812633", "46269897", "46254829", "46185302", "29376016", "19502566", "111433854", "48824588"];
     var homesInfo = [];
     var homesInfoPromise = [];
     var obj = {};
@@ -204,14 +220,58 @@ $(document).ready(function () {
     var zwsid = "X1-ZWz181f7ao8w7f_7oq0o";
     var cors = "https://cors-anywhere.herokuapp.com/";
     var houseIndex = 0;
+    var winTotal = 0;
 
 
 
-    $(document).ready(function () {
+    // // Get elements
+    // const userEmail = document.getElementById("userEmail-input");
+    // const userPassword = document.getElementById("userPw-input");
+    // const btnLogin = document.getElementById("btnLogin");
+    // const btnSignup = document.getElementById("btnSignUp");
+    // const btnLogout = document.getElementById("btnLogout");
+
+    // // Add login event
+    // btnLogin.addEventListener("click", e => {
+    //     // Get email and password
+    //     const email = userEmail.value;
+    //     const pass = userPassword.value;
+    //     const auth = firebase.auth();
+    //     // Sign in
+    //     const promise = auth.signInWithEmailAndPassword(email, pass);
+    //     promise.catch(e => console.log(e.message));
+    // });
+
+    // // Add Signup Event
+    // btnSignup.addEventListener("click", e => {
+    //     // Get email and password
+    //     const email = userEmail.value;
+    //     const pass = userPassword.value;
+    //     const auth = firebase.auth();
+    //     // Sign in
+    //     const promise = auth.createUserWithEmailAndPassword(email, pass);
+    //     promise.catch(e => console.log(e.message));
+    // });
+
+    // btnLogout.addEventListener("click", e => {
+    //     firebase.auth().signOut();
+    // })
+
+    // // Adds realtime user
+    // firebase.auth().onAuthStateChanged(firebaseUser => {
+    //     if(firebaseUser) {
+    //         console.log(firebaseUser);
+    //         btnLogout.classList.remove("hide");
+            
+    //     } else {
+    //         console.log("Not logged in.");
+    //         btnLogout.classList.add("hide");
+    //     }
+    // });
 
 
 
-
+$(document).ready(function () {
 
         //Write to another array
 
@@ -275,6 +335,8 @@ $(document).ready(function () {
                 Promise.all(homesInfoPromise).then(jsonResponse => {
                     jsonResponse.forEach((res, i) => {
                         if (i !== 1) {
+
+                            
 
                             const obj = {}
                             obj.homePrice = res[0]["UpdatedPropertyDetails:updatedPropertyDetails"].response.price["#text"];
@@ -390,8 +452,9 @@ $(document).ready(function () {
         $(".submit-answer").on("click", function (event) {
             event.preventDefault();
             bid();
-
-        })
+            
+        });
+        
 
         houseIndex = 0;
         clock = 9999999999999;
@@ -401,6 +464,7 @@ $(document).ready(function () {
 
 
     });
+    
 
 
     //user must place bid withing certain amt of time
@@ -423,9 +487,7 @@ $(document).ready(function () {
 
             $("#bedandbath").append("<p id='smaller'>Baths: " + homesInfo[houseIndex].homeBathrooms + "</p>");
 
-            $("#progress").html(houseIndex + 1);
-
-            $("#win-number").html("<p class='large'>Homes won: <br>" + wins + "/14</p>");
+            $("#win-number").html("<p class='large'>Homes won: <br>" + wins + "/10</p>");
 
             $("#guess-price").val('');
         }
@@ -434,8 +496,10 @@ $(document).ready(function () {
     }
 
     function nextProperty() {
-        houseIndex++;
+        
         loadProperty();
+         $("#progress").html(houseIndex + 1); 
+        console.log("House index: ",houseIndex);
     }
 
     function timesUp() {
@@ -450,6 +514,7 @@ $(document).ready(function () {
     //show how many properties won by user
     function results() {
         clearInterval(timer);
+        
         $("#score").html("<p>Final Results!</p>");
         $("#score").append("<p>You won a total of " + wins + " homes!</p>");
         reset();
@@ -457,18 +522,20 @@ $(document).ready(function () {
     }
     //take players bid
     function bid() {
+        difference()
         minBid = ((homesInfo[houseIndex].homePrice) - 100000)
 
 
         maxBid = ((homesInfo[houseIndex].homePrice) + 100000)
 
-        currentBid = $("#guess-price").val();
+        currentBid = $("#guess-price").val().split(",").join("");
         console.log(currentBid);
 
         if (currentBid == null || currentBid == 0) {
-            alert("Please guess a price.")
-        } else if (currentBid >= minBid || currentBid <= maxBid) {
+            confirm("Please enter a valid price.");
+        } else if (guessDifference <= 100000) {
             wonBid()
+            
         }
         else {
             lostBid()
@@ -477,10 +544,10 @@ $(document).ready(function () {
     }
 
     function difference() {
-        currentBid = $("#guess-price").val();
+        currentBid = $("#guess-price").val().split(",").join("");
         guessDifference = ((homesInfo[houseIndex].homePrice) - currentBid)
         if (guessDifference >= 0) {
-            guessDifference == (((homesInfo[houseIndex].homePrice) - currentBid) * 1)
+            guessDifference = (((homesInfo[houseIndex].homePrice) - currentBid) * 1)
         }
         else {
             guessDifference = (((homesInfo[houseIndex].homePrice) - currentBid) * -1)
@@ -492,12 +559,12 @@ $(document).ready(function () {
         difference()
         clearInterval(timer);
         wins++;
+        houseIndex++;
         $("#score").html("<p>Winner! <br> You were only off by $" + guessDifference + " </p>")
-        if (houseIndex == 13) {
-            setTimeout(results, 0);
-        } else {
-            setTimeout(nextProperty, 0);
-        }
+        guessDifference = 0;
+        $("#guess-price").val("");
+        finalSubmit()
+        console.log(houseIndex);
 
     }
 
@@ -505,11 +572,14 @@ $(document).ready(function () {
     function finalSubmit() {
         console.log(wins);
         console.log(losses);
-        if (wins + losses === 14) {
-            $(".submit-button").html("<button type='button' class='submit-answer'>Final Score</button>")
-        }
+        var winTotal = wins+losses
+        console.log(winTotal);
+        $("#bids").html("Bids won: " + wins + " | " + "Bids Lost: " + losses);
+        if (winTotal === 5) {
+            winMessage()
+        }        
         else {
-
+            nextProperty()
         }
     }
 
@@ -518,12 +588,20 @@ $(document).ready(function () {
         difference()
         clearInterval(timer);
         losses++;
+        houseIndex++;
+        var winTotal = wins+losses;
         $("#score").html("<p>Sorry! Try again. <br> Off by $" + guessDifference + "</p>")
-        if (houseIndex == 13) {
-            setTimeout(results, 0);
+        guessDifference = 0;
+        $("#guess-price").val("");
+        finalSubmit()
+        if (winTotal == 5) {
+            winMessage()
+            $(".imagesbanner").html("MORE INFO ")
+            $("#hideAfter").html("<br><br><p>Created by:</p>" + "<ul><li>Anjali Aujla</li><li>Taylor Reese</li><li>Tuere Thomas</li><li>Will Woods</li></ul>" + "<p>Find the code for this project on <a href='https://wwoods1016.github.io/Zillopoly' target:'#'>Github</a>.</p>");
         } else {
-            setTimeout(nextProperty, 0);
+            nextProperty()
         }
+        
     }
 
     function reset() {
@@ -533,3 +611,28 @@ $(document).ready(function () {
         losses = 0;
 
     }
+
+$(document).ready(function () {
+    $("#btnLogin").click(function () {
+        $("#btnLogin").hide();
+        $("#btnLogout").show();
+        var initalEntry = document.getElementById("nameInput").value;
+        $("#initials").html("<p style='text-transform: uppercase;'>Welcome, " + initalEntry + ".</p>")
+        $(".hideme").html("<br><p style='text-transform: uppercase;'>Welcome, " + initalEntry + "</p><br>" + "<p>The rules are simple. Place a bid on these homes from Zillow.com. Win the bid if your guess is within $100,000.</p>");
+       
+
+        return false;
+    });
+});
+
+function winMessage(){
+    if (wins <= 1) {
+        $(".message1").html("<p>Dang... " + wins + " bids won this time.</p>" + "<p>Try again with different Zillow listings in the future!</p>")
+    } else if (wins >1 && wins <= 4) {
+        $(".message1").html("<p>Pretty good! You got " + wins + " out of 5.</p>" + "<p>Try again with different Zillow listings in the future!</p>")
+    } else {
+        $(".message1").html("<p>Perfect 5 out of 5.</p>" + "<p>You'll own a few houses on the Boardwalk in no time.</p>")
+
+    }
+    
+}
