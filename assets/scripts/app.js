@@ -496,6 +496,17 @@ function wonBid() {
     clearInterval(timer);
     wins++;
     $("#score").html("<p>Congrats! You just purchased this beautiful home</p>")
+
+    var database = firebase.database();
+
+        database.ref("zWins").push({  //adds points to  userWins in the logged in firebase folder
+           
+            wins: wins
+
+        });
+
+        $("#userWins").html(wins);
+
     if (houseIndex == 6) {
         setTimeout(results, 3 * 1000);
     } else {
