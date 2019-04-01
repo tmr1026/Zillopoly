@@ -48,7 +48,7 @@ $(document).ready(function () {
         var displayName = $("#userName-input").val().trim();
         var email = $("#userEmail-input").val().trim();
         var password = $("#userPw-input").val().trim();
-        var photoURL = $("#userPic-input").val().trim();
+        //var photoURL = $("#userPic-input").val().trim();
         var hasSignedUp = true;
 
         console.log("User = " + displayName);
@@ -60,7 +60,7 @@ $(document).ready(function () {
             email: email,
             hasSignedUp: hasSignedUp,
             password: password,
-            photoURL: photoURL,
+            //photoURL: photoURL,
             userKey: "userKey"
 
         });
